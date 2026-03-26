@@ -74,22 +74,147 @@ public class Main {
                     System.out.println("Costo consulta: ");
                     double costov =sc.nextDouble();
                     System.out.println("años de fidelidad: ");
-                    int añosFidelidad =sc.nextInt();
+                    int aniosFidelidad =sc.nextInt();
 
-                    pacienteVip v = new pacienteVip(costov, documentov, nombrev, añosFidelidad);
+                    pacienteVip v = new pacienteVip(costov, documentov, nombrev, aniosFidelidad);
                     list.add(v);
                     break;
                 case 4:
                     System.out.println("4 buscar paciente por documento");
+                    System.out.println("Diguite el documento del paciente a buscar");
+                    int busDoc = sc. nextInt();
 
-
+                    boolean siesta = false;
+                    for (paciente pa : list){
+                        if (pa.getDocumento()== busDoc){
+                            double costoF = pa.calcularCostoFinal();
+                            pa.mostrarDatos(costoF);
+                            siesta = true;
+                            break;
+                        }
+                    }
+                    if (!siesta){
+                        System.out.println("No hay pacientes con ese numero de documento");
+                    }
+                    break;
                 case 5:
+                    int me;
+
+                    do {
+                        System.out.println("5. Mostrar pacientes por tipo");
+                        System.out.println("1. Mostrar todos los pacientes");
+                        System.out.println("2. Mostrar pacientes particulares");
+                        System.out.println("3. Mostrar pacientes EPS");
+                        System.out.println("4. Mostrar pacientes VIP");
+                        System.out.println("0. Salir");
+                        System.out.println("Elija una opcion 1-4");
+
+                        me = sc.nextInt();
+
+                        switch (me) {
+
+                            case 1:
+                                System.out.println("1. Mostrar todos los pacientes");
+                                System.out.println("=================================");
+
+                                if (list.isEmpty()) {
+                                    System.out.println("No hay pacientes");
+                                } else {
+                                    for (paciente pa : list) {
+                                        pa.mostrarDatos(pa.calcularCostoFinal());
+                                        System.out.println("=================================");
+                                    }
+                                }
+                                break;
+
+                            case 2:
+                                System.out.println("2. Mostrar pacientes particulares");
+                                System.out.println("=================================");
+
+                                for (paciente pa : list) {
+                                    if (pa instanceof pacienteparticular) {
+                                        pa.mostrarDatos(pa.calcularCostoFinal());
+                                        System.out.println("=================================");
+                                    }
+                                }
+                                break;
+
+                            case 3:
+                                System.out.println("3. Mostrar pacientes EPS");
+                                System.out.println("=================================");
+
+                                for (paciente pa : list) {
+                                    if (pa instanceof pacienteeps) {
+                                        pa.mostrarDatos(pa.calcularCostoFinal());
+                                        System.out.println("=================================");
+                                    }
+                                }
+                                break;
+
+                            case 4:
+                                System.out.println("4. Mostrar pacientes VIP");
+                                System.out.println("=================================");
+
+                                for (paciente pa : list) {
+                                    if (pa instanceof pacienteVip) {
+                                        pa.mostrarDatos(pa.calcularCostoFinal());
+                                        System.out.println("=================================");
+                                    }
+                                }
+                                break;
+                        }
+
+                    } while (me != 0);
+
+                    break;
                 case 6:
+                    System.out.println("6 calcular el costo de la consulta");
 
+                    System.out.println("Ingrese documento del paciente: ");
+                    int docCosto = sc.nextInt();
 
+                    boolean encontradoCosto = false;
 
+                    for (paciente pa : list) {
+                        if (pa.getDocumento() == docCosto) {
+                            double costoF = pa.calcularCostoFinal();
+                            System.out.println("Costo final: " + costoF);
+                            encontradoCosto = true;
+                            break;
+                        }
+                    }
+
+                    if (!encontradoCosto) {
+                        System.out.println("EL paciente no ha sido encontrado");
+                    }
+                    break;
+                case 7:
+                    System.out.println("7 mostrar consultas costosas");
+
+                    for (paciente pa : list) {
+                        if (pa.esConsultaCostosa()) {
+                            pa.mostrarDatos(pa.calcularCostoFinal());
+                        }
+                    }
+                    break;
+                case 8:
+                    System.out.println("8 mostrar paciente que mas pago");
+                    paciente mayor = list.get(0);
+                    double mayorCosto = mayor.calcularCostoFinal();
+
+                    for (paciente pa : list) {
+                        double ganador  = pa.calcularCostoFinal();
+
+                        if (ganador > mayorCosto) {
+                            mayorCosto = ganador;
+                            mayor = pa;
+                        }
+                    }
+
+                    System.out.println("Paciente que más pagó:");
+                    mayor.mostrarDatos(mayorCosto);
+                    break;
             }
-
         }while (op !=0);
 
     }
