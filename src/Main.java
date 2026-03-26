@@ -81,7 +81,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("4 buscar paciente por documento");
-                    documento
+
 
                 case 5:
                 case 6:
